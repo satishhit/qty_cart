@@ -1,0 +1,39 @@
+     <div class="control qty">
+                    <span class="minus"><button type="button" title="<?= __('Reduce the quantity'); ?>">-</button></span>  
+                    <input id="cart-<?= /* @escapeNotVerified */ $_item->getId() ?>-qty"
+                           name="cart[<?= /* @escapeNotVerified */ $_item->getId() ?>][qty]"
+                           data-cart-item-id="<?= $block->escapeHtml($_item->getSku()) ?>"
+                           value="<?= /* @escapeNotVerified */ $block->getQty() ?>"
+                           type="number"
+                           size="4"
+                           title="<?= $block->escapeHtml(__('Qty')) ?>"
+                           class="input-text qty"
+                           data-validate="{required:true,'validate-greater-than-zero':true}"
+                           data-role="cart-item-qty"/>
+                   <span class="plus"><button type="button" title="<?= __('Increase the quantity'); ?>" />+</button></span>
+                             <script type="text/javascript">
+                    // This is the javascript codes help us to increase and decrease qty
+                    require(['jquery'], function($) {
+                        $('.control .minus').on('click', function() {
+                            var cid = '<?php echo 'cart-'.$_item->getId().'-qty'; ?>';
+                            var qty = parseInt($('#'+cid).val());
+                            qty = qty - 1;
+                            $('.qty').val(qty).trigger('change');
+                        });
+                        $('.control .plus').on('click', function() {
+                            var cid = '<?php echo 'cart-'.$_item->getId().'-qty'; ?>';
+                            var qty = parseInt($('#'+cid).val());
+                            qty = qty + 1;
+                            $('.qty').val(qty).trigger('change');
+                        });
+                        $('.qty').on('change', function() {
+                            var qty = parseInt($(this).val());
+                            if (qty > 100) {
+                                $(this).val('100');
+                            } else if (qty < 1) {
+                                $(this).val('1');
+                            }
+                        });
+                    });
+                </script>
+                </div>
